@@ -1,4 +1,6 @@
 #include<bits/stdc++.h>
+#include <time.h>
+#include <queue>
 using namespace std;
 
 int numberOfPointer,key;
@@ -45,23 +47,87 @@ void createNewRoot(Node *node,string value,Node *leftChild,Node *rightChild)
     root=node;
 }
 
-Node *searchPlace(Node *node,string english)
+// Node *searchPlace(Node *node,string english)
+// {
+//     while(node->isLeaf==false)
+//     {
+//         int i;
+//         for( i=0;i<node->totalKeys;i++)
+//         {
+//             if(english<node->english[i])
+//             {
+//                 break;
+//             }
+//         }
+//         node=node->nodePointers[i];
+//         hopsize++;
+//     }
+
+//     return node;
+// }
+
+Node *searchPlace(Node *node, string english)
 {
-    while(node->isLeaf==false)
+    clock_t start, end;
+    start = clock();  // Start timer
+
+    while(node->isLeaf == false)
     {
         int i;
-        for( i=0;i<node->totalKeys;i++)
+        for(i = 0; i < node->totalKeys; i++)
         {
-            if(english<node->english[i])
+            if(english < node->english[i])
             {
                 break;
             }
         }
-        node=node->nodePointers[i];
+        node = node->nodePointers[i];
         hopsize++;
     }
 
+    end = clock();  // Stop timer
+
+    double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+    std::cout << "Time taken to search: " << time_taken << " sec" << std::endl;
+
     return node;
+}
+
+
+void printTree(Node* root) {
+    if (root == nullptr) {
+        return;
+    }
+
+    std::queue<Node*> nodesQueue;
+    int nodesInCurrentLevel = 1;
+    int nodesInNextLevel = 0;
+    nodesQueue.push(root);
+
+    while (!nodesQueue.empty()) {
+        Node* currentNode = nodesQueue.front();
+        nodesQueue.pop();
+        nodesInCurrentLevel--;
+
+        if (currentNode) {
+            for (int i = 0; i < currentNode->totalKeys; i++) {
+                std::cout << currentNode->english[i] << " ";
+            }
+
+            if (!currentNode->isLeaf) {
+                for (int i = 0; i <= currentNode->totalKeys; i++) {
+                    nodesQueue.push(currentNode->nodePointers[i]);
+                    nodesInNextLevel++;
+                }
+            }
+        }
+
+        if (nodesInCurrentLevel == 0) {
+            std::cout << std::endl;
+            nodesInCurrentLevel = nodesInNextLevel;
+            nodesInNextLevel = 0;
+        }
+    }
 }
 
 
@@ -237,4 +303,5 @@ int main()
     else puts("sorry. tree couldn't be built");
 
     searchMeaning();
+    printTree(root);
 }
