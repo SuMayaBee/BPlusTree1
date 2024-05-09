@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-#include <time.h>
+#include <chrono>
 #include <queue>
 using namespace std;
 
@@ -68,8 +68,7 @@ void createNewRoot(Node *node,string value,Node *leftChild,Node *rightChild)
 
 Node *searchPlace(Node *node, string english)
 {
-    clock_t start, end;
-    start = clock();  // Start timer
+    auto start = std::chrono::high_resolution_clock::now();  // Start timer
 
     while(node->isLeaf == false)
     {
@@ -85,10 +84,10 @@ Node *searchPlace(Node *node, string english)
         hopsize++;
     }
 
-    end = clock();  // Stop timer
+    auto stop = std::chrono::high_resolution_clock::now();  // Stop timer
+    auto duration = std::chrono::duration_cast<std::chrono::microseconds>(stop - start);
 
-    double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
-    std::cout << "Time taken to search: " << time_taken << " sec" << std::endl;
+    std::cout << "Time taken to search: " << duration.count() << " microseconds" << std::endl;
 
     return node;
 }
