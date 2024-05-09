@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-#include <chrono>
+#include <time.h>
 #include <queue>
 using namespace std;
 
@@ -244,8 +244,34 @@ void addToLeaf(string english,string meaning)
     }
 }
 
+// void searchMeaning()
+// {
+//     int i;
+//     puts("enter the word:");
+//     string word;
+//     cin>>word;
+
+//     hopsize=0;
+//     Node *leaf=searchPlace(root,word);
+//     for(i=0;i<leaf->totalKeys;i++)
+//     {
+//         if(leaf->english[i]==word) break;
+//     }
+//     freopen("ans.txt","w",stdout);
+//     if(i==leaf->totalKeys) puts("sorry. no word found");
+//     else
+//     {
+//         cout<<word<<" means "<<leaf->meaning[i]<<"\n";
+//     }
+//     cout<<"hop Size "<<hopsize<<"\n";
+// }
+
+
 void searchMeaning()
 {
+    clock_t start, end;
+    start = clock();  // Start timer
+
     int i;
     puts("enter the word:");
     string word;
@@ -264,6 +290,11 @@ void searchMeaning()
         cout<<word<<" means "<<leaf->meaning[i]<<"\n";
     }
     cout<<"hop Size "<<hopsize<<"\n";
+
+    end = clock();  // Stop timer
+
+    double time_taken = double(end - start) / double(CLOCKS_PER_SEC);
+    std::cout << "Time taken by searchMeaning: " << time_taken << " sec" << std::endl;
 }
 
 bool buildBPlusTree()
